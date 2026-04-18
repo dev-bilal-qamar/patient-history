@@ -17,7 +17,7 @@ const FooterContent = () => {
                 <span className="font-semibold">{`${APP_NAME}`}</span> All
                 rights reserved.
             </span>
-            <div className="">
+            {/* <div className="">
                 <a
                     className="text-gray"
                     href="/#"
@@ -33,7 +33,7 @@ const FooterContent = () => {
                 >
                     Privacy & Policy
                 </a>
-            </div>
+            </div> */}
         </div>
     )
 }

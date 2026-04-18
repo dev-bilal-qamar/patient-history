@@ -59,7 +59,7 @@ const _SideNavToggle = ({ className }: CommonProps) => {
                 <p className="text-xl sm:text-3xl font-bold text-primary-text font-comfortaa flex-shrink-0">
                     Patient History
                 </p>
-                {clinics?.length ? (
+                {clinics ? (
                     <div className="w-full">
                         <CustomClinicDropdown
                             placeholder="Select Clinic"
