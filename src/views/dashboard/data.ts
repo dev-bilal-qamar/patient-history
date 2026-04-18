@@ -2,9 +2,9 @@ import { AppRoutes } from '@/configs/routes.config/app-routes'
 
 export type dashboardDataType = {
     name: string
-    extraData?: boolean
+    extraData: boolean
     imageSrc: string
-    href?: string
+    href: string
 }
 
 export const dashboardData: dashboardDataType[] = [
