@@ -27,6 +27,17 @@ const NavigationConfig = (): NavigationTree[] => {
                     access: [],
                     subMenu: [],
                 },
+                {
+                    key: 'patient-history',
+                    path: '/smart-form',
+                    title: 'Patient History',
+                    translateKey: 'nav.patient-history',
+                    icon: 'patientHistory',
+                    type: NAV_ITEM_TYPE_ITEM,
+                    authority: [],
+                    access: [],
+                    subMenu: [],
+                },
             ],
         },
     ]

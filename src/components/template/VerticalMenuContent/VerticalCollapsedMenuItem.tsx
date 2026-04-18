@@ -36,17 +36,17 @@ const DefaultItem = ({ nav, onLinkClick, userAuthority }: DefaultItemProps) => {
         e: React.MouseEvent<HTMLAnchorElement>,
         navKey: string
     ) => {
-        if (!clinic && !isAdmin(userRole) && navKey !== 'dashboard') {
-            e.preventDefault()
-            toast.push(
-                <Notification type="danger" duration={2000}>
-                    Please select a clinic first
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
-        }
+        // if (!clinic && !isAdmin(userRole) && navKey !== 'dashboard') {
+        //     e.preventDefault()
+        //     toast.push(
+        //         <Notification type="danger" duration={2000}>
+        //             Please select a clinic first
+        //         </Notification>,
+        //         {
+        //             placement: 'top-center',
+        //         }
+        //     )
+        // }
     }
 
     return (
@@ -138,17 +138,17 @@ const CollapsedItem = ({
         e: React.MouseEvent<HTMLAnchorElement>,
         navKey: string
     ) => {
-        if (!clinic && !isAdmin(role) && navKey !== 'dashboard') {
-            e.preventDefault()
-            toast.push(
-                <Notification type="danger" duration={2000}>
-                    Please select a clinic first
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
-        }
+        // if (!clinic && !isAdmin(role) && navKey !== 'dashboard') {
+        //     e.preventDefault()
+        //     toast.push(
+        //         <Notification type="danger" duration={2000}>
+        //             Please select a clinic first
+        //         </Notification>,
+        //         {
+        //             placement: 'top-center',
+        //         }
+        //     )
+        // }
     }
 
     const menuItem = (

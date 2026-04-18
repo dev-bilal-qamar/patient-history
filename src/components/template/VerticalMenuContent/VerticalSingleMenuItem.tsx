@@ -53,17 +53,17 @@ const DefaultItem = (props: DefaultItemProps) => {
         e: React.MouseEvent<HTMLAnchorElement>,
         navKey: string
     ) => {
-        if (!clinic && !isAdmin(userRole) && navKey !== 'dashboard') {
-            e.preventDefault()
-            toast.push(
-                <Notification type="danger" duration={2000}>
-                    Please select a clinic first
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
-        }
+        // if (!clinic && !isAdmin(userRole) && navKey !== 'dashboard') {
+        //     e.preventDefault()
+        //     toast.push(
+        //         <Notification type="danger" duration={2000}>
+        //             Please select a clinic first
+        //         </Notification>,
+        //         {
+        //             placement: 'top-center',
+        //         }
+        //     )
+        // }
     }
 
     return (
