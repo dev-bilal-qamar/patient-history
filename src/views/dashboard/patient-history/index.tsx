@@ -188,14 +188,24 @@ const PatientHistory = () => {
                 >
                     <Table overflow>
                         <Table.THead>
-                            <Table.Tr>
-                                <Table.Th>Patient Code</Table.Th>
-                                <Table.Th>Patient</Table.Th>
-                                <Table.Th>Gender</Table.Th>
-                                <Table.Th>Age</Table.Th>
-                                <Table.Th>Mobile No</Table.Th>
-                                <Table.Th>Provider</Table.Th>
-                                <Table.Th className="text-center">
+                            <Table.Tr className="bg-primary-text">
+                                <Table.Th className="!text-white">
+                                    Patient Code
+                                </Table.Th>
+                                <Table.Th className="!text-white">
+                                    Patient
+                                </Table.Th>
+                                <Table.Th className="!text-white">
+                                    Gender
+                                </Table.Th>
+                                <Table.Th className="!text-white">Age</Table.Th>
+                                <Table.Th className="!text-white">
+                                    Mobile No
+                                </Table.Th>
+                                <Table.Th className="!text-white">
+                                    Provider
+                                </Table.Th>
+                                <Table.Th className="text-center !text-white">
                                     Action
                                 </Table.Th>
                             </Table.Tr>
