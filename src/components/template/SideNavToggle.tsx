@@ -57,7 +57,7 @@ const _SideNavToggle = ({ className }: CommonProps) => {
                     </div>
                 )}
                 <p className="text-xl sm:text-3xl font-bold text-primary-text font-comfortaa flex-shrink-0">
-                    Patient History
+                    R4 Patient History
                 </p>
                 {clinics ? (
                     <div className="w-full">

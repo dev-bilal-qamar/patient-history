@@ -10,9 +10,9 @@ export type dashboardDataType = {
 
 export const dashboardData: dashboardDataType[] = [
     {
-        name: 'Patient History',
+        name: 'R4 Patient History',
         description:
-            'Search by patient or date range, review visits, and export records when you need them.',
+            'Filter by provider and dates, browse the visit list, and export rows for referrals.',
         extraData: true,
         imageSrc: '/img/others/dashboard-6.png',
         href: AppRoutes.dashboard.patientHistory,

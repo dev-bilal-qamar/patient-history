@@ -1,5 +1,6 @@
 {
     "nav": {
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "patient-history": "R4 Patient History"
     }
 }

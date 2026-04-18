@@ -30,7 +30,7 @@ const NavigationConfig = (): NavigationTree[] => {
                 {
                     key: 'patient-history',
                     path: AppRoutes.dashboard.patientHistory,
-                    title: 'Patient History',
+                    title: 'R4 Patient History',
                     translateKey: 'nav.patient-history',
                     icon: 'patientHistory',
                     type: NAV_ITEM_TYPE_ITEM,
