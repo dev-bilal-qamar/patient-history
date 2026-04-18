@@ -1,0 +1,217 @@
+.rich-text-editor {
+  .ql-toolbar.ql-snow {
+    @apply border border-gray-300 dark:border-gray-600 rounded-tl-lg rounded-tr-lg;
+  }
+
+  .ql-container.ql-snow {
+    @apply border border-gray-300 dark:border-gray-600 rounded-bl-lg rounded-br-lg;
+  }
+
+  .ql-editor {
+    @apply min-h-[120px] p-6;
+  }
+
+  .ql-snow.ql-toolbar button,
+  .ql-snow .ql-toolbar button {
+  }
+
+  .ql-snow .ql-stroke {
+    @apply stroke-gray-600 dark:stroke-gray-100;
+  }
+
+  .ql-snow .ql-picker {
+    @apply text-gray-600 dark:text-gray-100;
+  }
+
+  .ql-snow.ql-toolbar button,
+  .ql-snow .ql-toolbar button {
+    @apply rounded;
+  }
+
+  .ql-snow.ql-toolbar button:hover,
+  .ql-snow .ql-toolbar button:hover,
+  .ql-snow.ql-toolbar button:focus,
+  .ql-snow .ql-toolbar button:focus,
+  .ql-snow.ql-toolbar button.ql-active,
+  .ql-snow .ql-toolbar button.ql-active,
+  .ql-snow.ql-toolbar .ql-picker-label:hover,
+  .ql-snow .ql-toolbar .ql-picker-label:hover,
+  .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+  .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+  .ql-snow.ql-toolbar .ql-picker-item:hover,
+  .ql-snow .ql-toolbar .ql-picker-item:hover,
+  .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+  .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+    @apply bg-gray-100 dark:bg-gray-500;
+  }
+
+  .ql-snow.ql-toolbar button:hover .ql-stroke,
+  .ql-snow .ql-toolbar button:hover .ql-stroke,
+  .ql-snow.ql-toolbar button:focus .ql-stroke,
+  .ql-snow .ql-toolbar button:focus .ql-stroke,
+  .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+  .ql-snow .ql-toolbar button.ql-active .ql-stroke,
+  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
+  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
+  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+  .ql-snow.ql-toolbar button:hover .ql-stroke-miter,
+  .ql-snow .ql-toolbar button:hover .ql-stroke-miter,
+  .ql-snow.ql-toolbar button:focus .ql-stroke-miter,
+  .ql-snow .ql-toolbar button:focus .ql-stroke-miter,
+  .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,
+  .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter,
+  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
+    @apply stroke-gray-900 dark:stroke-gray-100;
+  }
+
+  .ql-snow .ql-picker-options .ql-picker-item {
+    @apply px-2 rounded-lg;
+  }
+
+  .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    @apply border-gray-300 dark:border-gray-600;
+  }
+
+  .ql-snow .ql-picker-options {
+    @apply bg-white dark:bg-gray-700 rounded-lg;
+  }
+
+  .ql-snow.ql-toolbar button:hover,
+  .ql-snow .ql-toolbar button:hover,
+  .ql-snow.ql-toolbar button:focus,
+  .ql-snow .ql-toolbar button:focus,
+  .ql-snow.ql-toolbar button.ql-active,
+  .ql-snow .ql-toolbar button.ql-active,
+  .ql-snow.ql-toolbar .ql-picker-label:hover,
+  .ql-snow .ql-toolbar .ql-picker-label:hover,
+  .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+  .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+  .ql-snow.ql-toolbar .ql-picker-item:hover,
+  .ql-snow .ql-toolbar .ql-picker-item:hover,
+  .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+  .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+}
+
+/* Quill Output Classes for View Mode */
+.ql-align-center {
+  text-align: center !important;
+}
+
+.ql-align-right {
+  text-align: right !important;
+}
+
+.ql-align-justify {
+  text-align: justify !important;
+}
+
+.ql-font-monospace {
+  font-family: Monaco, "Courier New", monospace !important;
+}
+
+.ql-font-serif {
+  font-family: Georgia, Times, "Times New Roman", serif !important;
+}
+
+.ql-size-small {
+  font-size: 0.75em !important;
+}
+
+.ql-size-large {
+  font-size: 1.5em !important;
+}
+
+.ql-size-huge {
+  font-size: 2.5em !important;
+}
+
+/* Ensure images in Quill content don't exceed container */
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Handle lists in Quill output */
+.ql-editor ul, .ql-editor ol {
+  padding-left: 1.5em !important;
+  margin-bottom: 1em !important;
+}
+
+.ql-editor ul {
+  list-style-type: disc !important;
+}
+
+.ql-editor ol {
+  list-style-type: decimal !important;
+}
+
+/*
+ * Clinic profile header/footer editors: fixed height + flex on the Quill root
+ * fights Quill's .ql-container { height: 100% }, which can hide the editor body.
+ * Let the container grow in the column and scroll inside.
+ */
+.clinic-profile-quill.rich-text-editor {
+  min-height: 300px;
+}
+
+.clinic-profile-quill .ql-toolbar.ql-snow {
+  flex-shrink: 0;
+}
+
+.clinic-profile-quill .ql-container.ql-snow {
+  flex: 1 1 0%;
+  min-height: 0;
+  height: auto !important;
+}
+
+/*
+ * Clinic profile header/footer editors: saved HTML often copies the real app
+ * <footer class="footer flex h-16 ..."> markup. Those utilities then style the
+ * content inside .ql-editor like the shell footer. Reset so it reads as normal
+ * rich text, not a second app footer bar.
+ */
+.clinic-profile-quill .ql-editor footer,
+.clinic-profile-quill .ql-editor footer.footer {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  flex: none !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  position: static !important;
+  inset: auto !important;
+  padding: 0.5rem 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  z-index: auto !important;
+}
+
+/* Inner shell from pasted Footer (Container + flex row) */
+.clinic-profile-quill .ql-editor footer > div {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+}
+

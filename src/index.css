@@ -1,0 +1,43 @@
+@import "./assets/styles/app.css";
+
+
+@keyframes registerAnimation {
+  from {
+      transform: translateX(30%);
+      opacity: 0;
+  }
+}
+
+.animate-registerAnimation {
+  animation: registerAnimation 0.5s;
+}
+
+@keyframes loginAnimation {
+  from {
+      transform: translateX(-30%);
+      opacity: 0;
+  }
+}
+
+.animate-loginAnimation {
+  animation: loginAnimation 0.5s;
+} 
+
+@keyframes slideInFromRight {
+  from {
+      transform: translateX(100%);
+      opacity: 0;
+  }
+  to {
+      transform: translateX(0);
+      opacity: 1;
+  }
+}
+
+.animate-slideInFromRight {
+  animation: slideInFromRight 0.5s ease-out;
+}
+
+.select__menu {
+  z-index: 9999 !important;
+}

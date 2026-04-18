@@ -1,0 +1,81 @@
+/**
+ * Global scrollbar — WebKit/Blink + Firefox.
+ *
+ * Do NOT set scrollbar-width / scrollbar-color on all elements for Chromium:
+ * Chrome 121+ treats those as “standard” scrollbars and ignores ::-webkit-scrollbar-*,
+ * which brings back native Windows scrollbars (including arrow buttons).
+ * Firefox-only: thin + scrollbar-color via @supports (-moz-appearance: none).
+ */
+:root {
+  --scrollbar-size: 8px;
+  --scrollbar-track: #e5e7eb;
+  --scrollbar-thumb: #9ca3af;
+  --scrollbar-thumb-hover: #ee3851;
+}
+
+html.dark {
+  --scrollbar-track: #1f2937;
+  --scrollbar-thumb: #4b5563;
+  --scrollbar-thumb-hover: #fd6d6d;
+}
+
+/* Firefox only — does not conflict with WebKit custom scrollbar */
+@supports (-moz-appearance: none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+/* Hide up/down / left/right arrow buttons (needs WebKit path active — see note above) */
+*::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button:vertical:start:decrement,
+*::-webkit-scrollbar-button:vertical:end:increment,
+*::-webkit-scrollbar-button:horizontal:start:decrement,
+*::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 2px solid var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
+/* react-custom-scrollbars-2 (non-native thumbs) */
+.scrollbar-rc-track {
+  background: var(--scrollbar-track) !important;
+  border-radius: 9999px !important;
+}
+
+.scrollbar-rc-thumb {
+  cursor: pointer;
+  border-radius: 9999px !important;
+  background-color: var(--scrollbar-thumb) !important;
+}
+
+.scrollbar-rc-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover) !important;
+}
