@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 import {
     Card,
@@ -31,6 +31,17 @@ const PatientHistory = () => {
         { value: 'p3', label: 'Dr. Layla Rahman' },
     ]
 
+    const summary = useMemo(() => {
+        const total = dummyPatientVisits.length
+        const male = dummyPatientVisits.filter(
+            (r) => r.gender.toLowerCase() === 'male'
+        ).length
+        const female = dummyPatientVisits.filter(
+            (r) => r.gender.toLowerCase() === 'female'
+        ).length
+        return { total, male, female }
+    }, [])
+
     return (
         <Breadcrums>
             <div className="flex flex-col gap-6">
@@ -39,7 +50,9 @@ const PatientHistory = () => {
                     className="border-gray-shade-2 rounded-2xl"
                     bodyClass="p-5 md:p-6"
                 >
+                    <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 lg:gap-8">
                     <Radio.Group
+                        className="flex-1 min-w-0"
                         value={searchBy}
                         onChange={(v) => setSearchBy(v)}
                     >
@@ -132,6 +145,40 @@ const PatientHistory = () => {
                             </div>
                         </div>
                     </Radio.Group>
+
+                    <aside className="w-full lg:w-64 xl:w-72 shrink-0 flex flex-col border-t border-gray-shade-2 lg:border-t-0 lg:border-l lg:pl-8 pt-5 lg:pt-0">
+                        <h3 className="text-sm font-semibold text-gray-shade-5">
+                            Summary
+                        </h3>
+                        <div className="border-b border-gray-shade-2 mt-2 mb-3" />
+                        <dl className="space-y-3 text-sm">
+                            <div className="flex items-center justify-between gap-4">
+                                <dt className="text-gray-shade-1 font-medium">
+                                    Total Patients
+                                </dt>
+                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                    {summary.total}
+                                </dd>
+                            </div>
+                            <div className="flex items-center justify-between gap-4">
+                                <dt className="text-gray-shade-1 font-medium">
+                                    Male Patients
+                                </dt>
+                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                    {summary.male}
+                                </dd>
+                            </div>
+                            <div className="flex items-center justify-between gap-4">
+                                <dt className="text-gray-shade-1 font-medium">
+                                    Female Patients
+                                </dt>
+                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                    {summary.female}
+                                </dd>
+                            </div>
+                        </dl>
+                    </aside>
+                    </div>
                 </Card>
 
                 <div className="border-b border-gray-shade-2 mb-4" />
