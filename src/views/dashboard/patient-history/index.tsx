@@ -22,7 +22,7 @@ const PatientHistory = () => {
     const [patient, setPatient] = useState('')
     const [fromDate, setFromDate] = useState<Date | null>(new Date(2026, 3, 18))
     const [toDate, setToDate] = useState<Date | null>(new Date(2026, 3, 18))
-    const [searchBy, setSearchBy] = useState<'patient' | 'period'>('patient')
+    const [searchBy, setSearchBy] = useState<'patient' | 'provider'>('patient')
 
     const providerOptions = [
         { value: 'all', label: 'All' },
@@ -51,106 +51,99 @@ const PatientHistory = () => {
                     bodyClass="p-5 md:p-6"
                 >
                     <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 lg:gap-8">
-                        <Radio.Group
-                            className="flex-1 min-w-0"
-                            value={searchBy}
-                            onChange={(v) => setSearchBy(v)}
-                        >
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4">
-                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                    <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
-                                        <Radio
-                                            value="patient"
-                                            className="shrink-0"
-                                        />
-                                    </div>
-                                    <span className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                        Patient
-                                    </span>
-                                    <div className="min-w-0 w-full">
-                                        <Input
-                                            placeholder="Search Patient"
-                                            className="w-full"
-                                            value={patient}
-                                            disabled={searchBy !== 'patient'}
-                                            onChange={(e) =>
-                                                setPatient(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                    <div
-                                        aria-hidden
-                                        className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
-                                    />
-                                    <label className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                        Provider
+                        <div className="flex-1 min-w-0 flex flex-col gap-5">
+                            <Radio.Group
+                                value={searchBy}
+                                onChange={(v) =>
+                                    setSearchBy(v as 'patient' | 'provider')
+                                }
+                            >
+                                <div className="flex flex-wrap gap-x-8 gap-y-3">
+                                    <label className="inline-flex items-center gap-2 cursor-pointer">
+                                        <Radio value="patient" />
+                                        <span className="text-sm font-medium text-gray-shade-1">
+                                            Patient and Date
+                                        </span>
                                     </label>
-                                    <div className="min-w-0 w-full">
-                                        <Select
-                                            placeholder="Select Provider"
-                                            options={providerOptions}
-                                            value={provider}
-                                            onChange={(value) =>
-                                                setProvider(
-                                                    value as {
-                                                        value: string
-                                                        label: string
-                                                    }
-                                                )
-                                            }
-                                        />
-                                    </div>
+                                    <label className="inline-flex items-center gap-2 cursor-pointer">
+                                        <Radio value="provider" />
+                                        <span className="text-sm font-medium text-gray-shade-1">
+                                            Provider and Date
+                                        </span>
+                                    </label>
                                 </div>
-                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                    <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
-                                        <Radio
-                                            value="period"
-                                            className="shrink-0"
-                                        />
-                                    </div>
-                                    <span className="text-xs font-medium text-gray-shade-1 min-w-0">
+                            </Radio.Group>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                                <div className="grid gap-y-1.5">
+                                    <label
+                                        htmlFor="ph-search-patient"
+                                        className="text-xs font-medium text-gray-shade-1"
+                                    >
+                                        Patient
+                                    </label>
+                                    <Input
+                                        id="ph-search-patient"
+                                        placeholder="Search Patient"
+                                        className="w-full"
+                                        value={patient}
+                                        disabled={searchBy !== 'patient'}
+                                        onChange={(e) =>
+                                            setPatient(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div className="grid gap-y-1.5">
+                                    <span className="text-xs font-medium text-gray-shade-1">
+                                        Provider
+                                    </span>
+                                    <Select
+                                        placeholder="Select Provider"
+                                        options={providerOptions}
+                                        value={provider}
+                                        isDisabled={searchBy !== 'provider'}
+                                        onChange={(value) =>
+                                            setProvider(
+                                                value as {
+                                                    value: string
+                                                    label: string
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="grid gap-y-1.5">
+                                    <span className="text-xs font-medium text-gray-shade-1">
                                         From Date
                                     </span>
-                                    <div className="min-w-0 w-full">
-                                        <DatePicker
-                                            value={fromDate}
-                                            inputFormat="DD/MM/YYYY"
-                                            inputSuffix={
-                                                <HiCalendar className="text-lg text-primary-text" />
-                                            }
-                                            className="w-full"
-                                            placeholder="Select from date"
-                                            disabled={searchBy !== 'period'}
-                                            onChange={setFromDate}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                    <div
-                                        aria-hidden
-                                        className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
+                                    <DatePicker
+                                        value={fromDate}
+                                        inputFormat="DD/MM/YYYY"
+                                        inputSuffix={
+                                            <HiCalendar className="text-lg text-primary-text" />
+                                        }
+                                        className="w-full"
+                                        placeholder="Select from date"
+                                        onChange={setFromDate}
                                     />
-                                    <label className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                </div>
+                                <div className="grid gap-y-1.5">
+                                    <span className="text-xs font-medium text-gray-shade-1">
                                         To Date
-                                    </label>
-                                    <div className="min-w-0 w-full">
-                                        <DatePicker
-                                            value={toDate}
-                                            inputFormat="DD/MM/YYYY"
-                                            inputSuffix={
-                                                <HiCalendar className="text-lg text-primary-text" />
-                                            }
-                                            className="w-full"
-                                            placeholder="Select to date"
-                                            disabled={searchBy !== 'period'}
-                                            onChange={setToDate}
-                                        />
-                                    </div>
+                                    </span>
+                                    <DatePicker
+                                        value={toDate}
+                                        inputFormat="DD/MM/YYYY"
+                                        inputSuffix={
+                                            <HiCalendar className="text-lg text-primary-text" />
+                                        }
+                                        className="w-full"
+                                        placeholder="Select to date"
+                                        onChange={setToDate}
+                                    />
                                 </div>
                             </div>
-                        </Radio.Group>
+                        </div>
 
                         <aside className="w-full lg:w-64 xl:w-72 shrink-0 flex flex-col border-t border-gray-shade-2 lg:border-t-0 lg:border-l lg:pl-8 pt-5 lg:pt-0">
                             <h3 className="text-sm font-semibold text-gray-shade-5">
