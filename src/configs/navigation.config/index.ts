@@ -29,7 +29,7 @@ const NavigationConfig = (): NavigationTree[] => {
                 },
                 {
                     key: 'patient-history',
-                    path: '/smart-form',
+                    path: AppRoutes.dashboard.patientHistory,
                     title: 'Patient History',
                     translateKey: 'nav.patient-history',
                     icon: 'patientHistory',

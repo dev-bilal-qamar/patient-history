@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from 'react-router-dom'
 import { dashboardData } from './data'
-import { useSelector } from 'react-redux'
-import { isAdmin } from '@/components/shared/admin-check'
-import { Notification, toast } from '@/components/ui'
 
 const Dashboard = () => {
-    const clinic = useSelector((state: any) => state.auth.user.clinicId)
-    const userRole = useSelector((state: any) => state.auth.user.role)
-
     return (
         <div className="h-full relative">
             <div className="relertive">

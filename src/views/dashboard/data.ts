@@ -1,15 +1,17 @@
+import { AppRoutes } from '@/configs/routes.config/app-routes'
+
 export type dashboardDataType = {
     name: string
-    extraData: boolean
+    extraData?: boolean
     imageSrc: string
     href?: string
 }
 
 export const dashboardData: dashboardDataType[] = [
     {
-        name: 'smartForm',
+        name: 'Patient History',
         extraData: true,
         imageSrc: '/img/others/dashboard-6.png',
-        // href: '/smart-form',
+        href: AppRoutes.dashboard.patientHistory,
     },
 ]

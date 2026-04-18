@@ -12,4 +12,10 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/dashboard')),
         authority: [],
     },
+    {
+        key: 'patient-history',
+        path: AppRoutes.dashboard.patientHistory,
+        component: lazy(() => import('@/views/dashboard/patient-history')),
+        authority: [],
+    },
 ]
