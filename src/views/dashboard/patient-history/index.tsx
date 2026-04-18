@@ -47,137 +47,143 @@ const PatientHistory = () => {
             <div className="flex flex-col gap-6">
                 <Card
                     bordered
-                    className="border-gray-shade-2 rounded-2xl"
+                    className="border-gray-shade-2 rounded-2xl shadow-md"
                     bodyClass="p-5 md:p-6"
                 >
                     <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 lg:gap-8">
-                    <Radio.Group
-                        className="flex-1 min-w-0"
-                        value={searchBy}
-                        onChange={(v) => setSearchBy(v)}
-                    >
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4">
-                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
-                                    <Radio value="patient" className="shrink-0" />
+                        <Radio.Group
+                            className="flex-1 min-w-0"
+                            value={searchBy}
+                            onChange={(v) => setSearchBy(v)}
+                        >
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4">
+                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                    <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
+                                        <Radio
+                                            value="patient"
+                                            className="shrink-0"
+                                        />
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                        Patient
+                                    </span>
+                                    <div className="min-w-0 w-full">
+                                        <Input
+                                            placeholder="Search Patient"
+                                            className="w-full"
+                                            value={patient}
+                                            disabled={searchBy !== 'patient'}
+                                            onChange={(e) =>
+                                                setPatient(e.target.value)
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                                <span className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                    Patient
-                                </span>
-                                <div className="min-w-0 w-full">
-                                    <Input
-                                        placeholder="Search Patient"
-                                        className="w-full"
-                                        value={patient}
-                                        disabled={searchBy !== 'patient'}
-                                        onChange={(e) =>
-                                            setPatient(e.target.value)
-                                        }
+                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                    <div
+                                        aria-hidden
+                                        className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
                                     />
+                                    <label className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                        Provider
+                                    </label>
+                                    <div className="min-w-0 w-full">
+                                        <Select
+                                            placeholder="Select Provider"
+                                            options={providerOptions}
+                                            value={provider}
+                                            onChange={(value) =>
+                                                setProvider(
+                                                    value as {
+                                                        value: string
+                                                        label: string
+                                                    }
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                    <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
+                                        <Radio
+                                            value="period"
+                                            className="shrink-0"
+                                        />
+                                    </div>
+                                    <span className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                        From Date
+                                    </span>
+                                    <div className="min-w-0 w-full">
+                                        <DatePicker
+                                            value={fromDate}
+                                            inputFormat="DD/MM/YYYY"
+                                            inputSuffix={
+                                                <HiCalendar className="text-lg text-primary-text" />
+                                            }
+                                            className="w-full"
+                                            placeholder="Select from date"
+                                            disabled={searchBy !== 'period'}
+                                            onChange={setFromDate}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                    <div
+                                        aria-hidden
+                                        className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
+                                    />
+                                    <label className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                        To Date
+                                    </label>
+                                    <div className="min-w-0 w-full">
+                                        <DatePicker
+                                            value={toDate}
+                                            inputFormat="DD/MM/YYYY"
+                                            inputSuffix={
+                                                <HiCalendar className="text-lg text-primary-text" />
+                                            }
+                                            className="w-full"
+                                            placeholder="Select to date"
+                                            disabled={searchBy !== 'period'}
+                                            onChange={setToDate}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                <div
-                                    aria-hidden
-                                    className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
-                                />
-                                <label className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                    Provider
-                                </label>
-                                <div className="min-w-0 w-full">
-                                    <Select
-                                        placeholder="Select Provider"
-                                        options={providerOptions}
-                                        value={provider}
-                                        onChange={(value) =>
-                                            setProvider(
-                                                value as {
-                                                    value: string
-                                                    label: string
-                                                }
-                                            )
-                                        }
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
-                                    <Radio value="period" className="shrink-0" />
-                                </div>
-                                <span className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                    From Date
-                                </span>
-                                <div className="min-w-0 w-full">
-                                    <DatePicker
-                                        value={fromDate}
-                                        inputFormat="DD/MM/YYYY"
-                                        inputSuffix={
-                                            <HiCalendar className="text-lg text-primary-text" />
-                                        }
-                                        className="w-full"
-                                        placeholder="Select from date"
-                                        disabled={searchBy !== 'period'}
-                                        onChange={setFromDate}
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
-                                <div
-                                    aria-hidden
-                                    className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
-                                />
-                                <label className="text-xs font-medium text-gray-shade-1 min-w-0">
-                                    To Date
-                                </label>
-                                <div className="min-w-0 w-full">
-                                    <DatePicker
-                                        value={toDate}
-                                        inputFormat="DD/MM/YYYY"
-                                        inputSuffix={
-                                            <HiCalendar className="text-lg text-primary-text" />
-                                        }
-                                        className="w-full"
-                                        placeholder="Select to date"
-                                        disabled={searchBy !== 'period'}
-                                        onChange={setToDate}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </Radio.Group>
+                        </Radio.Group>
 
-                    <aside className="w-full lg:w-64 xl:w-72 shrink-0 flex flex-col border-t border-gray-shade-2 lg:border-t-0 lg:border-l lg:pl-8 pt-5 lg:pt-0">
-                        <h3 className="text-sm font-semibold text-gray-shade-5">
-                            Summary
-                        </h3>
-                        <div className="border-b border-gray-shade-2 mt-2 mb-3" />
-                        <dl className="space-y-3 text-sm">
-                            <div className="flex items-center justify-between gap-4">
-                                <dt className="text-gray-shade-1 font-medium">
-                                    Total Patients
-                                </dt>
-                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
-                                    {summary.total}
-                                </dd>
-                            </div>
-                            <div className="flex items-center justify-between gap-4">
-                                <dt className="text-gray-shade-1 font-medium">
-                                    Male Patients
-                                </dt>
-                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
-                                    {summary.male}
-                                </dd>
-                            </div>
-                            <div className="flex items-center justify-between gap-4">
-                                <dt className="text-gray-shade-1 font-medium">
-                                    Female Patients
-                                </dt>
-                                <dd className="text-gray-shade-5 font-semibold tabular-nums">
-                                    {summary.female}
-                                </dd>
-                            </div>
-                        </dl>
-                    </aside>
+                        <aside className="w-full lg:w-64 xl:w-72 shrink-0 flex flex-col border-t border-gray-shade-2 lg:border-t-0 lg:border-l lg:pl-8 pt-5 lg:pt-0">
+                            <h3 className="text-sm font-semibold text-gray-shade-5">
+                                Summary
+                            </h3>
+                            <div className="border-b border-gray-shade-2 mt-2 mb-3" />
+                            <dl className="space-y-3 text-sm">
+                                <div className="flex items-center justify-between gap-4">
+                                    <dt className="text-gray-shade-1 font-medium">
+                                        Total Patients
+                                    </dt>
+                                    <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                        {summary.total}
+                                    </dd>
+                                </div>
+                                <div className="flex items-center justify-between gap-4">
+                                    <dt className="text-gray-shade-1 font-medium">
+                                        Male Patients
+                                    </dt>
+                                    <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                        {summary.male}
+                                    </dd>
+                                </div>
+                                <div className="flex items-center justify-between gap-4">
+                                    <dt className="text-gray-shade-1 font-medium">
+                                        Female Patients
+                                    </dt>
+                                    <dd className="text-gray-shade-5 font-semibold tabular-nums">
+                                        {summary.female}
+                                    </dd>
+                                </div>
+                            </dl>
+                        </aside>
                     </div>
                 </Card>
 
