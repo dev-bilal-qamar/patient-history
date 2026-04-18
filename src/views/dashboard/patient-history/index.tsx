@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import classNames from 'classnames'
 import {
     Card,
@@ -39,106 +39,99 @@ const PatientHistory = () => {
                     className="border-gray-shade-2 rounded-2xl"
                     bodyClass="p-5 md:p-6"
                 >
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-5">
-                        <div className="space-y-4">
-                            <Radio.Group
-                                value={searchBy}
-                                onChange={(v) => setSearchBy(v)}
-                            >
-                                <div className="space-y-4">
-                                    <div>
-                                        <span className="block text-xs font-medium text-gray-shade-1 mb-1.5">
-                                            Patient
-                                        </span>
-                                        <div className="flex items-start gap-2">
-                                            <Radio
-                                                value="patient"
-                                                className="mt-1.5"
-                                            />
-                                            <div className="flex-1">
-                                                <Input
-                                                    placeholder="Search Patient"
-                                                    className="w-full"
-                                                    value={patient}
-                                                    disabled={
-                                                        searchBy !== 'patient'
-                                                    }
-                                                    onChange={(e) =>
-                                                        setPatient(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span className="block text-xs font-medium text-gray-shade-1 mb-1.5">
-                                            From Date
-                                        </span>
-                                        <div className="flex items-start gap-2">
-                                            <Radio
-                                                value="period"
-                                                className="mt-2"
-                                            />
-                                            <div className="flex-1">
-                                                <DatePicker
-                                                    value={fromDate}
-                                                    inputFormat="DD/MM/YYYY"
-                                                    inputSuffix={
-                                                        <HiCalendar className="text-lg text-primary-text" />
-                                                    }
-                                                    className="w-full"
-                                                    placeholder="Select from date"
-                                                    disabled={
-                                                        searchBy !== 'period'
-                                                    }
-                                                    onChange={setFromDate}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+                    <Radio.Group
+                        value={searchBy}
+                        onChange={(v) => setSearchBy(v)}
+                    >
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4">
+                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
+                                    <Radio value="patient" className="shrink-0" />
                                 </div>
-                            </Radio.Group>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-xs font-medium text-gray-shade-1 mb-1.5">
+                                <span className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                    Patient
+                                </span>
+                                <div className="min-w-0 w-full">
+                                    <Input
+                                        placeholder="Search Patient"
+                                        className="w-full"
+                                        value={patient}
+                                        disabled={searchBy !== 'patient'}
+                                        onChange={(e) =>
+                                            setPatient(e.target.value)
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                <div
+                                    aria-hidden
+                                    className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
+                                />
+                                <label className="text-xs font-medium text-gray-shade-1 min-w-0">
                                     Provider
                                 </label>
-                                <Select
-                                    placeholder="Select Provider"
-                                    options={providerOptions}
-                                    value={provider}
-                                    onChange={(value) =>
-                                        setProvider(
-                                            value as {
-                                                value: string
-                                                label: string
-                                            }
-                                        )
-                                    }
-                                />
+                                <div className="min-w-0 w-full">
+                                    <Select
+                                        placeholder="Select Provider"
+                                        options={providerOptions}
+                                        value={provider}
+                                        onChange={(value) =>
+                                            setProvider(
+                                                value as {
+                                                    value: string
+                                                    label: string
+                                                }
+                                            )
+                                        }
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-xs font-medium text-gray-shade-1 mb-1.5">
+                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                <div className="row-span-2 flex items-center justify-center self-stretch py-0.5">
+                                    <Radio value="period" className="shrink-0" />
+                                </div>
+                                <span className="text-xs font-medium text-gray-shade-1 min-w-0">
+                                    From Date
+                                </span>
+                                <div className="min-w-0 w-full">
+                                    <DatePicker
+                                        value={fromDate}
+                                        inputFormat="DD/MM/YYYY"
+                                        inputSuffix={
+                                            <HiCalendar className="text-lg text-primary-text" />
+                                        }
+                                        className="w-full"
+                                        placeholder="Select from date"
+                                        disabled={searchBy !== 'period'}
+                                        onChange={setFromDate}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 gap-y-1.5 items-center">
+                                <div
+                                    aria-hidden
+                                    className="row-span-2 flex items-center justify-center self-stretch w-5 shrink-0"
+                                />
+                                <label className="text-xs font-medium text-gray-shade-1 min-w-0">
                                     To Date
                                 </label>
-                                <DatePicker
-                                    value={toDate}
-                                    inputFormat="DD/MM/YYYY"
-                                    inputSuffix={
-                                        <HiCalendar className="text-lg text-primary-text" />
-                                    }
-                                    className="w-full"
-                                    placeholder="Select to date"
-                                    disabled={searchBy !== 'period'}
-                                    onChange={setToDate}
-                                />
+                                <div className="min-w-0 w-full">
+                                    <DatePicker
+                                        value={toDate}
+                                        inputFormat="DD/MM/YYYY"
+                                        inputSuffix={
+                                            <HiCalendar className="text-lg text-primary-text" />
+                                        }
+                                        className="w-full"
+                                        placeholder="Select to date"
+                                        disabled={searchBy !== 'period'}
+                                        onChange={setToDate}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Radio.Group>
                 </Card>
 
                 <div className="border-b border-gray-shade-2 mb-4" />
