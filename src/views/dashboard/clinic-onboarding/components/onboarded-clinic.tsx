@@ -32,11 +32,13 @@ export const OnboardedClinic: React.FC<Props> = ({ clinics }) => {
                             </Tr>
                         ))
                     ) : (
-                        <Tr asElement="tr" className="text-center">
-                            <Td asElement="td" className="text-center">
-                                <span className="text-gray-shade-10 text-lg font-medium text-center font-comfortaa">
-                                    No clinics found
-                                </span>
+                        <Tr asElement="tr">
+                            <Td
+                                asElement="td"
+                                colSpan={3}
+                                className="py-12 text-center text-lg font-medium font-comfortaa text-gray-shade-10"
+                            >
+                                No clinics found
                             </Td>
                         </Tr>
                     )}

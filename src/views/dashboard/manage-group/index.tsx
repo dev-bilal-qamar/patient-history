@@ -141,17 +141,13 @@ const Groups = () => {
                                             </Tr>
                                         ))
                                     ) : (
-                                        <Tr
-                                            asElement="tr"
-                                            className="text-center"
-                                        >
+                                        <Tr asElement="tr">
                                             <Td
                                                 asElement="td"
-                                                className="text-center"
+                                                colSpan={3}
+                                                className="py-12 text-center text-lg font-medium font-comfortaa text-gray-shade-10"
                                             >
-                                                <span className="text-gray-shade-10 text-lg font-medium text-center font-comfortaa">
-                                                    No groups found
-                                                </span>
+                                                No groups found
                                             </Td>
                                         </Tr>
                                     )}
