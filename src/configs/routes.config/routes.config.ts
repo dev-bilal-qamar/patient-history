@@ -13,9 +13,21 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
-        key: 'patient-history',
+        key: 'dashboard.patientHistory',
         path: AppRoutes.dashboard.patientHistory,
         component: lazy(() => import('@/views/dashboard/patient-history')),
+        authority: [],
+    },
+    {
+        key: 'dashboard.manageGroups',
+        path: AppRoutes.dashboard.manageGroups,
+        component: lazy(() => import('@/views/dashboard/manage-group')),
+        authority: [],
+    },
+    {
+        key: 'dashboard.clinicOnboarding',
+        path: AppRoutes.dashboard.clinicOnboarding,
+        component: lazy(() => import('@/views/dashboard/clinic-onboarding')),
         authority: [],
     },
 ]
