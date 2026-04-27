@@ -27,8 +27,15 @@ export const OnboardedClinic: React.FC<Props> = ({ clinics }) => {
                         clinics.map((item) => (
                             <Tr key={item._id} asElement="tr">
                                 <Td asElement="td">{item.name}</Td>
-                                <Td asElement="td">{item._id}</Td>
-                                <ApiKeyCell apiKey={item.key} />
+                                <Td
+                                    asElement="td"
+                                    className="font-mono text-xs"
+                                >
+                                    {item.clinicId}
+                                </Td>
+                                <ApiKeyCell
+                                    apiKey={item?.key ?? item?.apiKey ?? ''}
+                                />
                             </Tr>
                         ))
                     ) : (

@@ -23,7 +23,7 @@ export type OnboardingFormProps = {
 }
 type formikValues = {
     name: string
-    group: string
+    groupId: string
     email: string
     phone: string
     address: string
@@ -31,7 +31,7 @@ type formikValues = {
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    group: Yup.string().required('Group is required'),
+    groupId: Yup.string().required('Group is required'),
     email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
@@ -59,12 +59,12 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
         values: formikValues,
         setSubmitting: (isSubmitting: boolean) => void
     ) => {
-        const { name, email, address, phone, group } = values
+        const { name, email, address, phone, groupId } = values
         setSubmitting(true)
         try {
             const response = await apiPostClinic({
                 name,
-                group,
+                groupId,
                 email,
                 phone,
                 address,
@@ -106,7 +106,7 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                 email: '',
                 phone: '',
                 address: '',
-                group: '',
+                groupId: '',
             }}
             validationSchema={validationSchema}
             validateOnChange={false}
@@ -114,9 +114,16 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                 onSubmiting(values, setSubmitting)
             }}
         >
-            {({ touched, errors, isSubmitting, values }) => (
+            {({
+                touched,
+                errors,
+                isSubmitting,
+                values,
+                setFieldValue,
+                setFieldTouched,
+            }) => (
                 <Form>
-                    <FormContainer className="flex flex-col gap-3 w-full max-w-[641px] mt-6">
+                    <FormContainer className="flex flex-col gap-3 w-full max-w-[641px] mt-6 ml-0.5">
                         <FormItem
                             invalid={(errors && touched.name) as boolean}
                             errorMessage={errors.name}
@@ -145,21 +152,35 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                         </FormItem>
                         <FormItem
                             label=""
-                            invalid={(errors.group && touched.group) as boolean}
-                            errorMessage={errors.group}
+                            invalid={
+                                (errors.groupId && touched.groupId) as boolean
+                            }
+                            errorMessage={errors.groupId}
                         >
                             <Select
-                                name="group"
                                 placeholder="Select Group"
                                 options={groups?.map((group) => ({
                                     label: group.name,
                                     value: group._id,
                                 }))}
+                                value={
+                                    groups
+                                        ?.map((g) => ({
+                                            label: g.name,
+                                            value: g._id,
+                                        }))
+                                        .find(
+                                            (o) => o.value === values.groupId
+                                        ) ?? null
+                                }
                                 className="focus:ring-primary-text focus:outline-none focus:border-0 cursor-pointer"
-                                onChange={(e) => {
-                                    if (e) {
-                                        values.group = e.value
-                                    }
+                                onChange={(option) => {
+                                    void setFieldValue(
+                                        'groupId',
+                                        (option as { value: string } | null)
+                                            ?.value ?? ''
+                                    )
+                                    void setFieldTouched('groupId', true)
                                 }}
                             />
                         </FormItem>
@@ -180,11 +201,6 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                             invalid={(errors && touched.phone) as boolean}
                             errorMessage={errors.phone}
                         >
-                            {/*
-                                Keep default PhoneInput layout (display:flex); do not override
-                                with gap/extra &>div flex — that hides the country flag.
-                                Style.css must be imported above.
-                            */}
                             <div className="rounded-md border border-gray-200 bg-white pl-2 pr-1 py-1 transition-shadow focus-within:border-primary-text focus-within:ring-1 focus-within:ring-primary-text min-h-[44px] flex items-center">
                                 <PhoneInput
                                     international
@@ -196,7 +212,13 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                                             'PhoneInputInput !h-9 !min-h-0 !border-0 !shadow-none !ring-0 !outline-none !bg-transparent !text-sm',
                                     }}
                                     onChange={(phone) => {
-                                        values.phone = (phone as string) ?? ''
+                                        void setFieldValue(
+                                            'phone',
+                                            phone ?? ''
+                                        )
+                                    }}
+                                    onBlur={() => {
+                                        void setFieldTouched('phone', true)
                                     }}
                                 />
                             </div>

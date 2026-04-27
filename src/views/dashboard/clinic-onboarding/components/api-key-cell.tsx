@@ -16,6 +16,14 @@ export function ApiKeyCell({ apiKey }: ApiKeyCellProps) {
         setIsVisible(!isVisible)
     }
 
+    if (!apiKey) {
+        return (
+            <TableCell element="td" className="text-gray-400">
+                —
+            </TableCell>
+        )
+    }
+
     const maskedKey = '•'.repeat(apiKey.length)
 
     return (
