@@ -6,5 +6,6 @@ export const AppRoutes = {
         patientHistoryDetail: '/dashboard/patient-history/detail/:id',
         manageGroups: '/dashboard/manage-groups',
         clinics: '/dashboard/clinics',
+        addClinic: '/dashboard/clinics/add',
     },
 }

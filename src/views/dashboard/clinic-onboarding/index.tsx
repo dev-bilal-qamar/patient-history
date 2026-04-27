@@ -32,7 +32,7 @@ const ClinicOnboarding = () => {
     return (
         <Breadcrums>
             <h2 className="text-2xl font-bold font-comfortaa text-black-shade-1 mb-5 mt-8">
-                Clinic Onboarding
+                Clinics
             </h2>
         </Breadcrums>
     )
