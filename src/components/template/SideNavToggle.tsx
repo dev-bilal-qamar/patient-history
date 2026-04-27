@@ -16,10 +16,12 @@ import {
 } from '../custom/custom-clinics-dropdown'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const _SideNavToggle = ({ className }: CommonProps) => {
     const user = useAppSelector((state) => state.auth.user)
     const clinics = useSelector((state: any) => state.auth.clinics)
+    const pathname = useLocation().pathname
 
     const { larger } = useResponsive()
 
@@ -57,7 +59,13 @@ const _SideNavToggle = ({ className }: CommonProps) => {
                     </div>
                 )}
                 <p className="text-xl sm:text-3xl font-bold text-primary-text font-comfortaa flex-shrink-0">
-                    R4 Patient History
+                    {pathname.includes('/dashboard/clinics')
+                        ? 'Clinics'
+                        : pathname.includes('/dashboard/manage-groups')
+                        ? 'Manage Groups'
+                        : pathname.includes('/dashboard/patient-history')
+                        ? 'R4 Patient History'
+                        : 'Dashboard'}
                 </p>
                 {clinics ? (
                     <div className="w-full">
