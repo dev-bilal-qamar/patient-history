@@ -1,6 +1,6 @@
 import ApiService from './ApiService'
 
-type GroupPostRequest = {
+export type GroupPostRequest = {
     name: string
 }
 

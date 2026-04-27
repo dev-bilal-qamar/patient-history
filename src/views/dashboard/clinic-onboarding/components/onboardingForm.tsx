@@ -8,80 +8,69 @@ import {
     toast,
 } from '@/components/ui'
 import {
-    apiGetFacility,
-    apiPostOnboardingClinic,
-} from '@/services/AdminPanelService'
+    apiPostClinic,
+    
+} from '@/services/ClinicService'
+import { apiGetGroups, GroupPostRequest } from '@/services/GroupService'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { useSearchParams } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
-import { GetFacilityResponseData } from '@/@types/adminPanelApi'
-import { backendOptions } from '../../smart-forms/data'
 
 type formikValues = {
     name: string
+    group: string
     email: string
     phone: string
     address: string
-    backend: string
-    facilityId: string
 }
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
+    group: Yup.string().required('Group is required'),
     email: Yup.string()
         .email('Invalid email address')
         .required('Email is required'),
     phone: Yup.string().required('Phone number is required'),
     address: Yup.string().required('Address is required'),
-    backend: Yup.string().required('Backend is required'),
-    facilityId: Yup.string().required('Facility is required'),
 })
 
 const OnboardingForm = () => {
-    const [searchParams] = useSearchParams()
-    const onboard = searchParams.get('onboard')
-    const [facility, setFacility] = useState<GetFacilityResponseData[]>()
+    const [groups, setGroups] = useState<GroupPostRequest[]>()
 
-    const getFacility = useCallback(async () => {
+    const getClinics = useCallback(async () => {
         try {
-            const response = await apiGetFacility(1, 1000)
-            setFacility(
-                response.data.data.results.sort((a, b) =>
-                    a.createdAt > b.createdAt ? -1 : 1
-                )
-            )
+            const response = await apiGetGroups()
+            setGroups(response.data.data.results)
         } catch (err) {
             console.error(err)
         }
     }, [])
 
     useEffect(() => {
-        getFacility()
-    }, [getFacility])
+        getClinics()
+    }, [getClinics])
 
     const onSubmiting = async (
         values: formikValues,
         setSubmitting: (isSubmitting: boolean) => void
     ) => {
-        const { name, email, address, phone, backend, facilityId } = values
+        const { name, email, address, phone, group } = values
         setSubmitting(true)
         try {
-            const response = await apiPostOnboardingClinic({
+            const response = await apiPostClinic({
                 name,
+                group,
                 email,
                 phone,
                 address,
-                backend,
-                facilityId,
             })
 
-            if (response.data.status) {
+            if (response.status) {
                 toast.push(
                     <Notification type="success" duration={2000}>
-                        {response.data.message}
+                        {response.message}
                     </Notification>,
                     {
                         placement: 'top-center',
@@ -92,13 +81,13 @@ const OnboardingForm = () => {
             values.email = ''
             values.phone = ''
             values.address = ''
-            values.facilityId = ''
+            values.group = ''
             setSubmitting(false)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             toast.push(
                 <Notification type="danger" duration={2000}>
-                    {err.response.data.message}
+                    {err.response.message}
                 </Notification>,
                 {
                     placement: 'top-center',
@@ -111,12 +100,11 @@ const OnboardingForm = () => {
     return (
         <Formik
             initialValues={{
-                name: onboard ? onboard : '',
+                name: '',
                 email: '',
                 phone: '',
                 address: '',
-                backend: '',
-                facilityId: '',
+                group: '',
             }}
             validationSchema={validationSchema}
             validateOnChange={false}
@@ -132,7 +120,6 @@ const OnboardingForm = () => {
                             errorMessage={errors.name}
                         >
                             <Field
-                                readOnly={onboard ? true : false}
                                 type="text"
                                 autoComplete="off"
                                 name="name"
@@ -143,60 +130,42 @@ const OnboardingForm = () => {
                         </FormItem>
                         <FormItem
                             label=""
-                            invalid={
-                                (errors.facilityId &&
-                                    touched.facilityId) as boolean
-                            }
-                            errorMessage={errors.facilityId}
+                            invalid={(errors.group && touched.group) as boolean}
+                            errorMessage={errors.group}
                         >
                             <Select
-                                name="facilityId"
+                                name="group"
                                 placeholder="Select Group"
-                                options={facility?.map((facility) => ({
-                                    label: facility.name,
-                                    value: facility._id,
+                                options={clinics?.map((clinic) => ({
+                                    label: clinic.name,
+                                    value: clinic.id,
                                 }))}
                                 className="focus:ring-primary-text focus:outline-none focus:border-0 cursor-pointer"
                                 onChange={(e) => {
                                     if (e) {
-                                        values.facilityId = e.value
+                                        values.group = e.value
                                     }
                                 }}
                             />
                         </FormItem>
                         <FormItem
                             label=""
-                            invalid={
-                                (errors.backend && touched.backend) as boolean
-                            }
-                            errorMessage={errors.backend}
+                            invalid={(errors.group && touched.group) as boolean}
+                            errorMessage={errors.group}
                         >
                             <Select
-                                name="backend"
+                                name="value"
                                 placeholder="Select Value"
-                                options={backendOptions}
+                                options={clinics?.map((clinic) => ({
+                                    label: clinic.name,
+                                    value: clinic.value,
+                                }))}
                                 className="focus:ring-primary-text focus:outline-none focus:border-0 cursor-pointer"
                                 onChange={(e) => {
                                     if (e) {
-                                        values.backend = e.value
+                                        values.value = e.value
                                     }
                                 }}
-                            />
-                        </FormItem>
-                        <FormItem
-                            invalid={(errors && touched.email) as boolean}
-                            errorMessage={errors.email}
-                        >
-                            <Field
-                                type="text"
-                                autoComplete="off"
-                                name="email"
-                                placeholder="EMAIL"
-                                className="focus:ring-primary-text focus:outline-none focus:border-0"
-                                component={Input}
-                            />
-                        </FormItem>
-                        <FormItem
                             invalid={(errors && touched.address) as boolean}
                             errorMessage={errors.address}
                         >

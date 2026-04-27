@@ -25,8 +25,8 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
-        key: 'dashboard.clinicOnboarding',
-        path: AppRoutes.dashboard.clinicOnboarding,
+        key: 'dashboard.clinics',
+        path: AppRoutes.dashboard.clinics,
         component: lazy(() => import('@/views/dashboard/clinic-onboarding')),
         authority: [],
     },

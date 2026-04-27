@@ -1,6 +1,6 @@
 import ApiService from './ApiService'
 
-type ClinicPostRequest = {
+export type GetClinicsResponse = {
     name: string
     group: string
     address: string
@@ -15,7 +15,7 @@ export async function apiGetClinics() {
     })
 }
 
-export async function apiPostClinic(data: ClinicPostRequest) {
+export async function apiPostClinic(data: GetClinicsResponse) {
     return ApiService.fetchData({
         url: `v1/clinics`,
         method: 'post',
