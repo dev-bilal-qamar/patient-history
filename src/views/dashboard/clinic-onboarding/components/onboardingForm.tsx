@@ -7,14 +7,12 @@ import {
     Select,
     toast,
 } from '@/components/ui'
-import {
-    apiPostClinic,
-    
-} from '@/services/ClinicService'
-import { apiGetGroups, GroupPostRequest } from '@/services/GroupService'
+import { Group } from '@/@types/group'
+import { apiPostClinic } from '@/services/ClinicService'
+import { apiGetGroups } from '@/services/GroupService'
 import { Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import 'react-phone-number-input/style.css'
+import { AxiosError } from 'axios'
 import PhoneInput from 'react-phone-number-input'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -37,20 +35,20 @@ const validationSchema = Yup.object().shape({
 })
 
 const OnboardingForm = () => {
-    const [groups, setGroups] = useState<GroupPostRequest[]>()
+    const [groups, setGroups] = useState<Group[]>()
 
-    const getClinics = useCallback(async () => {
+    const getGroups = useCallback(async () => {
         try {
             const response = await apiGetGroups()
-            setGroups(response.data.data.results)
+            setGroups(response.data.data)
         } catch (err) {
             console.error(err)
         }
     }, [])
 
     useEffect(() => {
-        getClinics()
-    }, [getClinics])
+        getGroups()
+    }, [getGroups])
 
     const onSubmiting = async (
         values: formikValues,
@@ -67,27 +65,27 @@ const OnboardingForm = () => {
                 address,
             })
 
-            if (response.status) {
+            if (response.data.success) {
                 toast.push(
                     <Notification type="success" duration={2000}>
-                        {response.message}
-                    </Notification>,
-                    {
-                        placement: 'top-center',
-                    }
+                        {response.data.message}
+                    </Notification>
                 )
             }
-            values.name = ''
-            values.email = ''
-            values.phone = ''
-            values.address = ''
-            values.group = ''
             setSubmitting(false)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
+        } catch (err) {
+            const message =
+                err instanceof AxiosError &&
+                err.response?.data &&
+                typeof err.response.data === 'object' &&
+                'message' in err.response.data
+                    ? String(
+                          (err.response.data as { message: string }).message
+                      )
+                    : 'Something went wrong'
             toast.push(
                 <Notification type="danger" duration={2000}>
-                    {err.response.message}
+                    {message}
                 </Notification>,
                 {
                     placement: 'top-center',
@@ -129,6 +127,19 @@ const OnboardingForm = () => {
                             />
                         </FormItem>
                         <FormItem
+                            invalid={(errors && touched.email) as boolean}
+                            errorMessage={errors.email}
+                        >
+                            <Field
+                                type="email"
+                                autoComplete="off"
+                                name="email"
+                                placeholder="EMAIL"
+                                className="focus:ring-primary-text focus:outline-none focus:border-0 "
+                                component={Input}
+                            />
+                        </FormItem>
+                        <FormItem
                             label=""
                             invalid={(errors.group && touched.group) as boolean}
                             errorMessage={errors.group}
@@ -136,9 +147,9 @@ const OnboardingForm = () => {
                             <Select
                                 name="group"
                                 placeholder="Select Group"
-                                options={clinics?.map((clinic) => ({
-                                    label: clinic.name,
-                                    value: clinic.id,
+                                options={groups?.map((group) => ({
+                                    label: group.name,
+                                    value: group._id,
                                 }))}
                                 className="focus:ring-primary-text focus:outline-none focus:border-0 cursor-pointer"
                                 onChange={(e) => {
@@ -149,24 +160,9 @@ const OnboardingForm = () => {
                             />
                         </FormItem>
                         <FormItem
-                            label=""
-                            invalid={(errors.group && touched.group) as boolean}
-                            errorMessage={errors.group}
-                        >
-                            <Select
-                                name="value"
-                                placeholder="Select Value"
-                                options={clinics?.map((clinic) => ({
-                                    label: clinic.name,
-                                    value: clinic.value,
-                                }))}
-                                className="focus:ring-primary-text focus:outline-none focus:border-0 cursor-pointer"
-                                onChange={(e) => {
-                                    if (e) {
-                                        values.value = e.value
-                                    }
-                                }}
-                            invalid={(errors && touched.address) as boolean}
+                            invalid={
+                                (errors && touched.address) as boolean
+                            }
                             errorMessage={errors.address}
                         >
                             <Field

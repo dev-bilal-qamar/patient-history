@@ -1,4 +1,3 @@
-import { GetFacilityResponseData } from '@/@types/adminPanelApi'
 import { Breadcrums } from '@/components/shared/breadcrums'
 import { TableCell, TableRow } from '@/components/shared/table-component'
 import {
@@ -9,95 +8,59 @@ import {
     Pagination,
     toast,
 } from '@/components/ui'
-import { AppRoutes } from '@/configs/routes.config/app-routes'
-import {
-    apiCreateFacility,
-    apiGenerateFacilityCode,
-    apiGetFacility,
-} from '@/services/AdminPanelService'
+import type { Group } from '@/@types/group'
+import { apiGetGroups, apiPostGroup } from '@/services/GroupService'
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useState } from 'react'
 
-const Facility = () => {
-    const baseUrl = `${window.location.protocol}//${window.location.host}`
-
+const Groups = () => {
     const [dialogIsOpen, setIsOpen] = useState(false)
-    const [facilityInput, setFacilityInput] = useState('')
-    const [facility, setFacility] = useState<GetFacilityResponseData[]>()
+    const [groupInput, setGroupInput] = useState('')
+    const [groups, setGroups] = useState<Group[]>()
     const [tablePagination, setTablePagination] = useState({
         current_page: '',
         limit: '',
         total: '',
     })
 
-    const getFacility = useCallback(async () => {
+    const getGroups = useCallback(async () => {
         try {
-            const response = await apiGetFacility(
-                tablePagination.current_page || 1
-            )
-            setFacility(
-                response.data.data.results.sort((a, b) =>
-                    a.createdAt > b.createdAt ? -1 : 1
-                )
-            )
-            setTablePagination({
-                current_page: response.data.data.page.toString(),
-                limit: response.data.data.limit.toString(),
-                total: response.data.data.totalResults.toString(),
-            })
+            const response = await apiGetGroups()
+            setGroups(response.data.data)
+            // setTablePagination({
+            //     current_page: response.data.data.page.toString(),
+            //     limit: response.data.data.limit.toString(),
+            //     total: response.data.data.totalResults.toString(),
+            // })
         } catch (err) {
             console.error(err)
         }
-    }, [tablePagination.current_page])
+    }, [])
 
     useEffect(() => {
-        getFacility()
-    }, [getFacility])
+        getGroups()
+    }, [getGroups])
 
     const onDialogClose = () => {
         setIsOpen(false)
     }
 
-    const createFacility = async () => {
+    const createGroup = async () => {
         try {
-            const response = await apiCreateFacility({
-                name: facilityInput,
+            const response = await apiPostGroup({
+                name: groupInput,
             })
-            setFacility([response.data.data, ...(facility || [])])
+            if (response.data.success) {
+                toast.push(
+                    <Notification type="success" duration={2000}>
+                        {response.data.message}
+                    </Notification>
+                )
+            }
             setIsOpen(false)
-        } catch (err: any) {
-            toast.push(
-                <Notification type="danger" duration={5000}>
-                    {err.response.data.message}
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
-        }
-    }
-
-    const generateFacilityCode = async (id: string) => {
-        try {
-            await apiGenerateFacilityCode(id)
-            toast.push(
-                <Notification type="success" duration={5000}>
-                    Code generated successfully
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
-            getFacility()
-        } catch (err: any) {
-            toast.push(
-                <Notification type="danger" duration={5000}>
-                    {err.response.data.message}
-                </Notification>,
-                {
-                    placement: 'top-center',
-                }
-            )
+            getGroups()
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -121,14 +84,12 @@ const Facility = () => {
                                     <TableCell element="th">
                                         Date Created
                                     </TableCell>
-                                    <TableCell element="th">Code</TableCell>
-                                    <TableCell element="th">URL</TableCell>
                                 </TableRow>
                             </thead>
                             <tbody className="w-full">
-                                {facility &&
-                                    facility.map((item, index) => (
-                                        <TableRow key={index} element="tb">
+                                {groups && groups.length > 0 ? (
+                                    groups.map((item) => (
+                                        <TableRow key={item._id} element="tb">
                                             <TableCell
                                                 element="td"
                                                 className="capitalize"
@@ -142,62 +103,36 @@ const Facility = () => {
                                                     'DD-MM-YYYY'
                                                 )}
                                             </TableCell>
-                                            <TableCell element="td">
-                                                {item?.code !== null &&
-                                                item?.code !== undefined &&
-                                                item?.code !== '' ? (
-                                                    <span>{item?.code}</span>
-                                                ) : (
-                                                    <Button
-                                                        variant="twoTone"
-                                                        onClick={() => {
-                                                            generateFacilityCode(
-                                                                item._id
-                                                            )
-                                                        }}
-                                                    >
-                                                        Generate Code
-                                                    </Button>
-                                                )}
-                                            </TableCell>
-                                            <TableCell element="td">
-                                                {item?.code ? (
-                                                    <a
-                                                        href={`${baseUrl}${AppRoutes.appointmentBooking.replace(
-                                                            ':code',
-                                                            item.code
-                                                        )}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        {`${baseUrl}${AppRoutes.appointmentBooking.replace(
-                                                            ':code',
-                                                            item.code
-                                                        )}`}
-                                                    </a>
-                                                ) : (
-                                                    ''
-                                                )}
-                                            </TableCell>
                                         </TableRow>
-                                    ))}
+                                    ))
+                                ) : (
+                                    <TableRow element="tb">
+                                        <TableCell element="td">
+                                            <span className="text-gray-shade-10 text-lg font-medium text-center">
+                                                No groups found
+                                            </span>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div className="w-full flex justify-center">
-                    <Pagination
-                        currentPage={+tablePagination.current_page}
-                        pageSize={+tablePagination.limit}
-                        total={+tablePagination.total}
-                        onChange={(page) => {
-                            setTablePagination({
-                                ...tablePagination,
-                                current_page: page.toString(),
-                            })
-                        }}
-                    />
-                </div>
+                {groups && groups.length > 0 && (
+                    <div className="w-full flex justify-center">
+                        <Pagination
+                            currentPage={+tablePagination.current_page}
+                            pageSize={+tablePagination.limit}
+                            total={+tablePagination.total}
+                            onChange={(page) => {
+                                setTablePagination({
+                                    ...tablePagination,
+                                    current_page: page.toString(),
+                                })
+                            }}
+                        />
+                    </div>
+                )}
             </div>
             <Dialog
                 width={520}
@@ -214,13 +149,13 @@ const Facility = () => {
                         type="text"
                         name="name"
                         className="w-full"
-                        onChange={(e) => setFacilityInput(e.target.value)}
+                        onChange={(e) => setGroupInput(e.target.value)}
                     />
                     <Button
-                        disabled={!facilityInput}
+                        disabled={!groupInput}
                         variant="solid"
                         className="mt-4 w-full"
-                        onClick={createFacility}
+                        onClick={createGroup}
                     >
                         Create Group
                     </Button>
@@ -230,4 +165,4 @@ const Facility = () => {
     )
 }
 
-export default Facility
+export default Groups

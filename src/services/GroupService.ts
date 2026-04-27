@@ -1,20 +1,33 @@
+import type {
+    CreateGroupApiResponse,
+    GetGroupsApiResponse,
+    GroupPostRequest,
+} from '@/@types/group'
 import ApiService from './ApiService'
 
-export type GroupPostRequest = {
-    name: string
-}
+export type {
+    Group,
+    GroupPostRequest,
+    GetGroupsApiResponse,
+} from '@/@types/group'
 
 export async function apiGetGroups() {
-    return ApiService.fetchData({
+    return ApiService.fetchData<GetGroupsApiResponse>({
         url: `v1/groups`,
         method: 'get',
+        headers: {
+            'ngrok-skip-browser-warning': 'true',
+        },
     })
 }
 
 export async function apiPostGroup(data: GroupPostRequest) {
-    return ApiService.fetchData({
+    return ApiService.fetchData<CreateGroupApiResponse>({
         url: `v1/groups`,
         method: 'post',
         data,
+        headers: {
+            'ngrok-skip-browser-warning': 'true',
+        },
     })
 }
