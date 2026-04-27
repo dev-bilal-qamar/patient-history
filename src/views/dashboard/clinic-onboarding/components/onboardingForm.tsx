@@ -15,7 +15,12 @@ import * as Yup from 'yup'
 import { AxiosError } from 'axios'
 import PhoneInput from 'react-phone-number-input'
 import { useCallback, useEffect, useState } from 'react'
+import 'react-phone-number-input/style.css'
 
+export type OnboardingFormProps = {
+    /** Called after a successful create (e.g. close dialog + refresh list). */
+    onCreated?: () => void
+}
 type formikValues = {
     name: string
     group: string
@@ -34,7 +39,7 @@ const validationSchema = Yup.object().shape({
     address: Yup.string().required('Address is required'),
 })
 
-const OnboardingForm = () => {
+const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
     const [groups, setGroups] = useState<Group[]>()
 
     const getGroups = useCallback(async () => {
@@ -71,6 +76,7 @@ const OnboardingForm = () => {
                         {response.data.message}
                     </Notification>
                 )
+                onCreated?.()
             }
             setSubmitting(false)
         } catch (err) {
@@ -79,9 +85,7 @@ const OnboardingForm = () => {
                 err.response?.data &&
                 typeof err.response.data === 'object' &&
                 'message' in err.response.data
-                    ? String(
-                          (err.response.data as { message: string }).message
-                      )
+                    ? String((err.response.data as { message: string }).message)
                     : 'Something went wrong'
             toast.push(
                 <Notification type="danger" duration={2000}>
@@ -112,7 +116,7 @@ const OnboardingForm = () => {
         >
             {({ touched, errors, isSubmitting, values }) => (
                 <Form>
-                    <FormContainer className="flex flex-col gap-3 w-full max-w-[641px]">
+                    <FormContainer className="flex flex-col gap-3 w-full max-w-[641px] mt-6">
                         <FormItem
                             invalid={(errors && touched.name) as boolean}
                             errorMessage={errors.name}
@@ -160,9 +164,7 @@ const OnboardingForm = () => {
                             />
                         </FormItem>
                         <FormItem
-                            invalid={
-                                (errors && touched.address) as boolean
-                            }
+                            invalid={(errors && touched.address) as boolean}
                             errorMessage={errors.address}
                         >
                             <Field
@@ -178,15 +180,26 @@ const OnboardingForm = () => {
                             invalid={(errors && touched.phone) as boolean}
                             errorMessage={errors.phone}
                         >
-                            <PhoneInput
-                                name="phone"
-                                placeholder="Enter phone number"
-                                value={values.phone}
-                                className="flex gap-2 items-center focus:[&>input]:outline-none focus:[&>input]:border-0 [&>input]:border-[1.5px] h-11 [&>input]:h-full focus:[&>input]:ring-primary-text focus:[&>input]:ring-[1.5px] [&>input]:rounded-md [&>input]:px-3 [&>div]:w-16 [&>div]:h-full [&>div]:border-[1.5px] [&>div]:rounded-md [&>div]:px-3 [&>div]:flex [&>div]:items-center [&>div]:justify-center [&>div]:gap-3"
-                                onChange={(phone) => {
-                                    values.phone = phone as string
-                                }}
-                            />
+                            {/*
+                                Keep default PhoneInput layout (display:flex); do not override
+                                with gap/extra &>div flex — that hides the country flag.
+                                Style.css must be imported above.
+                            */}
+                            <div className="rounded-md border border-gray-200 bg-white pl-2 pr-1 py-1 transition-shadow focus-within:border-primary-text focus-within:ring-1 focus-within:ring-primary-text min-h-[44px] flex items-center">
+                                <PhoneInput
+                                    international
+                                    defaultCountry="AE"
+                                    countryCallingCodeEditable={false}
+                                    value={values.phone}
+                                    numberInputProps={{
+                                        className:
+                                            'PhoneInputInput !h-9 !min-h-0 !border-0 !shadow-none !ring-0 !outline-none !bg-transparent !text-sm',
+                                    }}
+                                    onChange={(phone) => {
+                                        values.phone = (phone as string) ?? ''
+                                    }}
+                                />
+                            </div>
                         </FormItem>
                         <div className="flex justify-end">
                             <Button
@@ -196,7 +209,7 @@ const OnboardingForm = () => {
                                 disabled={isSubmitting}
                                 type="submit"
                             >
-                                {isSubmitting ? 'ONBOARDING...' : 'ONBOARD'}
+                                {isSubmitting ? 'Creating…' : 'Create clinic'}
                             </Button>
                         </div>
                     </FormContainer>

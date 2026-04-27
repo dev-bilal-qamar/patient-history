@@ -96,7 +96,7 @@ const Groups = () => {
     return (
         <Breadcrums>
             <div className="flex items-center gap-10 justify-between">
-                <h2 className="text-2xl font-bold font-comfortaa text-black-shade-1 mt-5">
+                <h2 className="text-2xl font-bold font-comfortaa text-black-shade-1 mt-6">
                     Groups
                 </h2>
                 <Button className="" onClick={() => setIsOpen(true)}>

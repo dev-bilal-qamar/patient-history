@@ -1,34 +1,47 @@
-import { TableCell, TableRow } from '@/components/shared/table-component'
-import { ResultGetClinicById } from '@/@types/adminPanelApi'
 import { ApiKeyCell } from './api-key-cell'
+import Table from '@/components/ui/Table'
+import Tr from '@/components/ui/Table/Tr'
+import THead from '@/components/ui/Table/THead'
+import Th from '@/components/ui/Table/Th'
+import Td from '@/components/ui/Table/Td'
+import TBody from '@/components/ui/Table/TBody'
+import { Clinic } from '@/@types/clinic'
 
 interface Props {
-    clinics: ResultGetClinicById[]
+    clinics: Clinic[]
 }
 
 export const OnboardedClinic: React.FC<Props> = ({ clinics }) => {
     return (
-        <div className="mb-4 p-0">
-            <div className="overflow-x-auto pb-20 border border-gray-shade-10 rounded-lg">
-                <table className="table w-full">
-                    <thead>
-                        <TableRow element="th" className="h-14">
-                            <TableCell element="th">Clinic Name</TableCell>
-                            <TableCell element="th">Clinic ID</TableCell>
-                            <TableCell element="th">Clinic Api Key</TableCell>
-                        </TableRow>
-                    </thead>
-                    <tbody className="w-full">
-                        {clinics.map((item, index) => (
-                            <TableRow key={index} element="tb">
-                                <TableCell element="td">{item.name}</TableCell>
-                                <TableCell element="td">{item._id}</TableCell>
+        <div className="p-0 mt-6">
+            <Table asElement="table" className="table w-full">
+                <THead asElement="thead">
+                    <Tr asElement="tr" className="h-14">
+                        <Th asElement="th">Clinic Name</Th>
+                        <Th asElement="th">Clinic ID</Th>
+                        <Th asElement="th">Clinic Api Key</Th>
+                    </Tr>
+                </THead>
+                <TBody asElement="tbody" className="w-full">
+                    {clinics.length > 0 ? (
+                        clinics.map((item) => (
+                            <Tr key={item._id} asElement="tr">
+                                <Td asElement="td">{item.name}</Td>
+                                <Td asElement="td">{item._id}</Td>
                                 <ApiKeyCell apiKey={item.key} />
-                            </TableRow>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                            </Tr>
+                        ))
+                    ) : (
+                        <Tr asElement="tr" className="text-center">
+                            <Td asElement="td" className="text-center">
+                                <span className="text-gray-shade-10 text-lg font-medium text-center font-comfortaa">
+                                    No clinics found
+                                </span>
+                            </Td>
+                        </Tr>
+                    )}
+                </TBody>
+            </Table>
         </div>
     )
 }

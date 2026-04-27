@@ -34,10 +34,7 @@ export const protectedRoutes: Routes = [
         key: 'dashboard.addClinic',
         path: AppRoutes.dashboard.addClinic,
         component: lazy(
-            () =>
-                import(
-                    '@/views/dashboard/clinic-onboarding/components/onboardingForm'
-                )
+            () => import('@/views/dashboard/clinic-onboarding/add-clinic-route')
         ),
         authority: [],
     },

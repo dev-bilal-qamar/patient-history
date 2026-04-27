@@ -1,20 +1,20 @@
+import type {
+    CreateClinicRequest,
+    GetClinicsApiResponse,
+    PostClinicApiResponse,
+} from '@/@types/clinic'
 import ApiService from './ApiService'
 
-export type GetClinicsResponse = {
-    name: string
-    group: string
-    address: string
-    email: string
-    phone: string
-}
+export type GetClinicsResponse = CreateClinicRequest
 
-export type PostClinicApiResponse = {
-    success: boolean
-    message: string
-}
+export type {
+    Clinic,
+    GetClinicsApiResponse,
+    CreateClinicRequest,
+} from '@/@types/clinic'
 
 export async function apiGetClinics() {
-    return ApiService.fetchData({
+    return ApiService.fetchData<GetClinicsApiResponse>({
         url: `v1/clinics`,
         method: 'get',
         headers: {
@@ -23,7 +23,7 @@ export async function apiGetClinics() {
     })
 }
 
-export async function apiPostClinic(data: GetClinicsResponse) {
+export async function apiPostClinic(data: CreateClinicRequest) {
     return ApiService.fetchData<PostClinicApiResponse>({
         url: `v1/clinics`,
         method: 'post',
