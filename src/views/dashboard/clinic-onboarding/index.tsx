@@ -56,12 +56,13 @@ const ClinicOnboarding = () => {
                     Create clinic
                 </Button>
             </div>
-            {isLoading && (
-                <div className="flex justify-center py-12">
+            {isLoading ? (
+                <div className="flex items-center justify-center h-96">
                     <Spinner size={40} />
                 </div>
+            ) : (
+                <OnboardedClinic clinics={clinics ?? []} />
             )}
-            <OnboardedClinic clinics={clinics ?? []} />
         </Breadcrums>
     )
 }

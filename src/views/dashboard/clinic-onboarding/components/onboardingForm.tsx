@@ -18,7 +18,6 @@ import { useCallback, useEffect, useState } from 'react'
 import 'react-phone-number-input/style.css'
 
 export type OnboardingFormProps = {
-    /** Called after a successful create (e.g. close dialog + refresh list). */
     onCreated?: () => void
 }
 type formikValues = {
@@ -180,6 +179,8 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                                         (option as { value: string } | null)
                                             ?.value ?? ''
                                     )
+                                }}
+                                onBlur={() => {
                                     void setFieldTouched('groupId', true)
                                 }}
                             />
@@ -212,10 +213,7 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                                             'PhoneInputInput !h-9 !min-h-0 !border-0 !shadow-none !ring-0 !outline-none !bg-transparent !text-sm',
                                     }}
                                     onChange={(phone) => {
-                                        void setFieldValue(
-                                            'phone',
-                                            phone ?? ''
-                                        )
+                                        void setFieldValue('phone', phone ?? '')
                                     }}
                                     onBlur={() => {
                                         void setFieldTouched('phone', true)
@@ -226,7 +224,6 @@ const OnboardingForm = ({ onCreated }: OnboardingFormProps) => {
                         <div className="flex justify-end">
                             <Button
                                 variant="solid"
-                                className="w-32"
                                 loading={isSubmitting}
                                 disabled={isSubmitting}
                                 type="submit"
