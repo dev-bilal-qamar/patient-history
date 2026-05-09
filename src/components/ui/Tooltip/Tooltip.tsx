@@ -55,7 +55,7 @@ const Tooltip = (props: TooltipProps) => {
         twColor?.[themeColor]?.[primaryColorLevel] || '#8b5cf6'
 
     const defaultTooltipClass =
-        'tooltip rounded-2xl px-5 py-2 bg-white/18 dark:bg-white/12 backdrop-blur-3xl [backdrop-filter:saturate(160%)_blur(18px)] border border-white/35 text-primary-text dark:text-white shadow-[0_10px_28px_rgba(139,92,246,0.28),inset_0_1px_0_rgba(255,255,255,0.45)] font-semibold tracking-wide'
+        'tooltip rounded-2xl px-5 py-2 border border-white/25 text-white font-semibold tracking-wide'
 
     const toggleTooltip = useCallback(
         (bool: boolean) => {
@@ -106,6 +106,8 @@ const Tooltip = (props: TooltipProps) => {
                                     )}
                                     style={{
                                         ...style,
+                                        backgroundColor: themeHexColor,
+                                        color: '#ffffff',
                                         boxShadow: `0 8px 28px ${themeHexColor}59, inset 0 1px 0 rgba(255,255,255,0.25)`,
                                     }}
                                     initial={{
